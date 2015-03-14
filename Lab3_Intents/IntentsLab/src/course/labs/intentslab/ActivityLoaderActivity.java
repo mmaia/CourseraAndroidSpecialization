@@ -89,20 +89,19 @@ public class ActivityLoaderActivity extends Activity {
 		// TODO - Create a chooser intent, for choosing which Activity
 		// will carry out the baseIntent
 		// (HINT: Use the Intent class' createChooser() method)
-//        Uri webPage = Uri.parse("http://www.google.com");
         String googleUrl = "http://www.google.com";
-		Intent chooserIntent = null; 
-//				Intent.createChooser(Intent.ACTION_SEND);
+        Uri googleAddress = Uri.parse(googleUrl);
+		Intent chooserIntent = new Intent(Intent.ACTION_VIEW, googleAddress);
         
+		Intent chooser = Intent.createChooser(chooserIntent, CHOOSER_TEXT);
+		
 		Log.i(TAG,"Chooser Intent Action:" + chooserIntent.getAction());
-        
         
 		// TODO - Start the chooser Activity, using the chooser intent
 		// Verify the intent will resolve to at least one activity
 		if (chooserIntent.resolveActivity(getPackageManager()) != null) {
-		    startActivity(chooserIntent);
+		    startActivity(chooser);
 		}
-        
 	}
     
 	@Override

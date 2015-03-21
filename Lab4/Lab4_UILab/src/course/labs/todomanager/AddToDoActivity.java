@@ -95,9 +95,10 @@ public class AddToDoActivity extends Activity {
 				Log.i(TAG, "Entered cancelButton.OnClickListener.onClick()");
 
 				// TODO - Indicate result and finish
+				Intent returnIntent = new Intent();
+				setResult(RESULT_CANCELED, returnIntent);
+				finish();
 
-                
-                
 			}
 		});
 
@@ -109,11 +110,10 @@ public class AddToDoActivity extends Activity {
 				Log.i(TAG, "Entered resetButton.OnClickListener.onClick()");
 
 				// TODO - Reset data to default values
+				mTitleText.setText("");
+				mDefaultStatusButton.setChecked(true);
+				mDefaultPriorityButton.setChecked(true);
 
-
-                
-                
-                
 				// reset date and time
 				setDefaultDateTime();
 			}
@@ -130,28 +130,48 @@ public class AddToDoActivity extends Activity {
 				// TODO - gather ToDoItem data
 
 				// Get Priority
+				String selection = null;
+				if (mPriorityRadioGroup.getCheckedRadioButtonId() != -1) {
+					int id = mPriorityRadioGroup.getCheckedRadioButtonId();
+					View radioButton = mPriorityRadioGroup.findViewById(id);
+					int radioId = mPriorityRadioGroup.indexOfChild(radioButton);
+					RadioButton btn = (RadioButton) mPriorityRadioGroup.getChildAt(radioId);
+					selection = (String) btn.getText();
+				}
 				Priority priority = null;
+				if(selection.equalsIgnoreCase("HIGH")){
+					priority = Priority.HIGH;
+				}else if(selection.equalsIgnoreCase("LOW")){
+					priority = Priority.LOW;
+				}else{
+					priority = Priority.MED;
+				}
+				
 
 				// Get Status
-				Status status = null;
-
+				View radioButton = mStatusRadioGroup.findViewById(mStatusRadioGroup.getCheckedRadioButtonId());
+				Status selectedStatus = null;
+				if(mStatusRadioGroup.indexOfChild(radioButton) != 1){
+					selectedStatus = Status.DONE;
+				}else{
+					selectedStatus = Status.NOTDONE;
+				}
+				
 				// Title
-				String titleString = null;
+				String titleString = mTitleText.getText().toString();
 
 				// Date
 				String fullDate = dateString + " " + timeString;
 
 				// Package ToDoItem data into an Intent
 				Intent data = new Intent();
-				ToDoItem.packageIntent(data, titleString, priority, status,
+				ToDoItem.packageIntent(data, titleString, priority, selectedStatus,
 						fullDate);
 
 				// TODO - return data Intent and finish
-
-
-            
-            
-            }
+				setResult(RESULT_OK, data);
+				finish();
+			}
 		});
 	}
 

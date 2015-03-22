@@ -1,5 +1,6 @@
 package org.coursera.android.modernartui;
 
+import java.math.BigDecimal;
 import java.util.Random;
 
 import android.app.Activity;
@@ -10,7 +11,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,7 +25,7 @@ public class MainActivity extends Activity {
 	private static final String TAG = "MainActivity";
 	
 	//moma address url
-	private final static String MOMA_SITE = "www.moma.org";
+	private final static String MOMA_SITE = "http://www.moma.org";
 
 	//need to change colors of all non-white/gray views
 	private View leftTop;
@@ -125,26 +125,26 @@ public class MainActivity extends Activity {
 	
 	//method that change the collors of the views using BigDecimal
 	private void changeCollor(int colorIncrementer, View... views ){
-		Log.i(TAG, "SeekBar.changeCollor called");
+//		Log.i(TAG, "SeekBar.changeCollor called");
 
 		//implementation using random colors being generated.
-		for (View view : views) {
-            ((ColorDrawable) view.getBackground()).setColor(0xFF000000 + randomColorGen.nextInt(0xFFFFFF));
-            
-        }
+//		for (View view : views) {
+//            ((ColorDrawable) view.getBackground()).setColor(0xFF000000 + randomColorGen.nextInt(0xFFFFFF));
+//            
+//        }
 		
 		
 		//implementation using opacity
-//		for(View view: views){
-//			int currentOpacity = view.getBackground().getOpacity();
+		for(View view: views){
+			int currentOpacity = view.getBackground().getOpacity();
 //			Log.i(TAG, "current opacity: " + currentOpacity);
-//			int baseColor = 100 - colorIncrementer;
-//			BigDecimal bd = new BigDecimal(baseColor);
-//			BigDecimal bdNewOpacity = bd.divide(new BigDecimal(100));
-//			float newOpacity = bdNewOpacity.floatValue();
+			int baseColor = 100 - colorIncrementer;
+			BigDecimal bd = new BigDecimal(baseColor);
+			BigDecimal bdNewOpacity = bd.divide(new BigDecimal(100));
+			float newOpacity = bdNewOpacity.floatValue();
 //			Log.i(TAG, "new opacity: " + newOpacity);
-//			view.setAlpha((float)newOpacity);
-//		}
+			view.setAlpha((float)newOpacity);
+		}
 		
 		//Implementation using color saturation
 		//http://www.41post.com/4837/programming/android-changing-image-color-saturation

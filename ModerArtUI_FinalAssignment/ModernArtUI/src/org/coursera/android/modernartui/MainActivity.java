@@ -1,9 +1,8 @@
 package org.coursera.android.modernartui;
 
-import java.util.Random;
+import java.math.BigDecimal;
 
 import android.app.Activity;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -22,8 +21,6 @@ public class MainActivity extends Activity {
 	private View rightTop;
 	private View rightBottom;
 	
-	//used to generate a random number to be added to white color while sliding
-	Random randomGenerator = new Random();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +38,11 @@ public class MainActivity extends Activity {
 		SeekBar theSlider = (SeekBar) findViewById(R.id.slider);
 		
 		theSlider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+			
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-            	Log.i(TAG, "SeekBar.onProgressChanged called, not being used by now");
+            	Log.i(TAG, "SeekBar.onProgressChanged called, progress so far: " + progress);
+            	changeCollor(progress, leftTop, rightTop, leftBottom, rightBottom);
             }
 
             @Override
@@ -53,18 +52,24 @@ public class MainActivity extends Activity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-            	Log.i(TAG, "SeekBar.onPStopTrackingTouch called, should change collors by now");
-                changeCollor(leftTop, rightTop, leftBottom, rightBottom);
+            	Log.i(TAG, "SeekBar.onPStopTrackingTouch called, not being used by now");
             }
         });
 		
 	}
 	
-	//method that change the collors of the views using a random generated number + White
-	private void changeCollor(View... views){
+	//method that change the collors of the views using BigDecimal + View.setAlpha of the view who sets opacity.
+	private void changeCollor(int colorIncrementer, View... views ){
 		Log.i(TAG, "SeekBar.changeCollor called");
 		for(View view: views){
-			((ColorDrawable) view.getBackground()).setColor(0xFF000000 + randomGenerator.nextInt(0xFFFFFF));
+			int currentOpacity = view.getBackground().getOpacity();
+			Log.i(TAG, "current opacity: " + currentOpacity);
+			int baseColor = 100 - colorIncrementer;
+			BigDecimal bd = new BigDecimal(baseColor);
+			BigDecimal bdNewOpacity = bd.divide(new BigDecimal(100));
+			float newOpacity = bdNewOpacity.floatValue();
+			Log.i(TAG, "new opacity: " + newOpacity);
+			view.setAlpha((float)newOpacity);
 		}
 	}
 }

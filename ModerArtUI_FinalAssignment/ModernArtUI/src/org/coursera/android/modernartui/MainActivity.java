@@ -11,6 +11,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -57,7 +58,7 @@ public class MainActivity extends Activity {
 		//get reference to the slide Bar 
 		SeekBar theSlider = (SeekBar) findViewById(R.id.slider);
 		//sets value from 0 - 100
-		theSlider.setMax(100);
+//		theSlider.setMax(100);
 		theSlider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 			
             @Override
@@ -127,30 +128,28 @@ public class MainActivity extends Activity {
 	private void changeCollor(int colorIncrementer, View... views ){
 //		Log.i(TAG, "SeekBar.changeCollor called");
 
-		//implementation using random colors being generated.
-//		for (View view : views) {
-//            ((ColorDrawable) view.getBackground()).setColor(0xFF000000 + randomColorGen.nextInt(0xFFFFFF));
-//            
-//        }
+//		implementation using random colors being generated.
+		for (View view : views) {
+            ((ColorDrawable) view.getBackground()).setColor(0xFF000000 + randomColorGen.nextInt(0xFFFFFF));
+        }
 		
 		
 		//implementation using opacity
-		for(View view: views){
-			int currentOpacity = view.getBackground().getOpacity();
-//			Log.i(TAG, "current opacity: " + currentOpacity);
-			int baseColor = 100 - colorIncrementer;
-			BigDecimal bd = new BigDecimal(baseColor);
-			BigDecimal bdNewOpacity = bd.divide(new BigDecimal(100));
-			float newOpacity = bdNewOpacity.floatValue();
-//			Log.i(TAG, "new opacity: " + newOpacity);
-			view.setAlpha((float)newOpacity);
-		}
+//		for(View view: views){
+//			int currentOpacity = view.getBackground().getOpacity();
+////			Log.i(TAG, "current opacity: " + currentOpacity);
+//			int baseColor = 100 - colorIncrementer;
+//			BigDecimal bd = new BigDecimal(baseColor);
+//			BigDecimal bdNewOpacity = bd.divide(new BigDecimal(100));
+//			float newOpacity = bdNewOpacity.floatValue();
+////			Log.i(TAG, "new opacity: " + newOpacity);
+//			view.setAlpha((float)newOpacity);
+//		}
 		
-		//Implementation using color saturation
-		//http://www.41post.com/4837/programming/android-changing-image-color-saturation
+		//TODO - IF I HAVE THE TIME IMPLEMENT CHANGING RGB COLORS AND THAN RADIO BUTTONS 
+		//GIVEN THE USER THE OPTION TO CHOOSE ONE OF THESE IMPLEMENTATIONS...
 //		for (View view : views) {
-//            
-//            
+//			view.setBackgroundColor((Color.rgb(256 - colorIncrementer, 256 - colorIncrementer, 256 - colorIncrementer)));
 //        }
 	}
 }
